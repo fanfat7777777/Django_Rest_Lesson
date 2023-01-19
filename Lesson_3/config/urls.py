@@ -16,12 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from app_authors.views import AuthorModelViewSet, BiographyModelViewSet, BookModelViewSet
+from app_authors.views import AuthorModelViewSet, BiographyModelViewSet, BookModelViewSet, \
+    BookDjangoFilterViewSet, BookLimitOffsetPaginatonViewSet
 
 router = DefaultRouter()
 router.register('authors_router', AuthorModelViewSet)
 router.register('biography_router', BiographyModelViewSet)
-router.register('book_router', BookModelViewSet)
+#router.register('book_router', BookModelViewSet)
+#router.register('book_f', BookDjangoFilterViewSet)
+router.register('book_p', BookLimitOffsetPaginatonViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
