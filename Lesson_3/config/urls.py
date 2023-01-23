@@ -18,13 +18,19 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from app_authors.views import AuthorModelViewSet, BiographyModelViewSet, BookModelViewSet, \
     BookDjangoFilterViewSet, BookLimitOffsetPaginatonViewSet
+from app_users.views import UserViewSet
+
 
 router = DefaultRouter()
+
 router.register('authors_router', AuthorModelViewSet)
 router.register('biography_router', BiographyModelViewSet)
-#router.register('book_router', BookModelViewSet)
+router.register('books_router', BookModelViewSet)
 #router.register('book_f', BookDjangoFilterViewSet)
-router.register('book_p', BookLimitOffsetPaginatonViewSet)
+#router.register('book_p', BookLimitOffsetPaginatonViewSet)
+# users
+router.register('users_router', UserViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

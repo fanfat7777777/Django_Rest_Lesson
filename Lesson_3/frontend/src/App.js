@@ -2,19 +2,27 @@
 import './App.css';
 import React from 'react';
 import axios from 'axios';
+import {HashRouter, BrowserRouter, Route, Link, Switch, Redirect} from 'react-router-dom';
 import AuthorList from './components/Author';
+import BookList from './components/Book';
+import NotFound404 from './components/NotFound404';
+import BookListAuthor from './components/BooksAuthor';
+//import UserList from './components/User'
 
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      'authorsProps':[]
+      'authorsProps':[],
+      'booksProps':[],
+      //'usersProps':[]
     }
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8000/api/app_authors/').then(
+    
+    axios.get('http://localhost:8000/api/authors_router/').then(
       response => {
         const authorsMount = response.data
         this.setState(
@@ -24,6 +32,30 @@ class App extends React.Component {
         )
       }
     ).catch(error => console.log(error))
+
+    //Книжки
+    axios.get('http://localhost:8000/api/books_router/').then(
+      response => {
+        const booksMount = response.data
+        this.setState(
+          {
+            'booksProps':booksMount
+          }
+        )
+      }
+    ).catch(error => console.log(error))
+
+    /*Юзеры
+    axios.get('http://localhost:8000/api/users_router/').then(
+      response => {
+        const usersMount = response.data
+        this.setState(
+          {
+            'usersProps':usersMount
+          }
+        )
+      }
+    ).catch(error => console.log(error))*/
     /*const authorsMount = [
       {
         'first_name':'Алек',
@@ -47,7 +79,35 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <BrowserRouter>
+          <nav>
+            <ul>
+              <li>
+                <Link to='/'>Authors</Link>
+              </li>
+              <li>
+                <Link to='/books_router'>Books</Link>
+              </li>
+            </ul>
+          </nav>
+          <Switch>
+            <Route exact path='/' component={() => <AuthorList authors={this.state.authorsProps} />} />
+            <Route exact path='/books_router' component={() => <BookList books={this.state.booksProps} />} />
+            
+            <Route path='/author/:id'>
+              <BookListAuthor books={this.state.booksProps}/>
+            </Route>
+
+
+            <Redirect from='/authors' to='/' />
+            <Route component={NotFound404} />
+          </Switch>
+        </BrowserRouter>
+        {/*Авторы
         <AuthorList authors={this.state.authorsProps} />
+        <br/>
+        Юзеры
+        <UserList users={this.state.usersProps} />*/}
       </div>
     )
   }
