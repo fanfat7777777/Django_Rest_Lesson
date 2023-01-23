@@ -17,13 +17,13 @@ class BookModelViewSet(ModelViewSet):
     queryset = BookModel.objects.all()
     serializer_class = BookModelSerializer
 
-    def get_queryset(self):
-        name = self.request.query_params.get('name', '')
-        book = BookModel.objects.all()
+    #def get_queryset(self):
+    #    name = self.request.query_params.get('name', '')
+    #    book = BookModel.objects.all()
 
-        if name:
-            book = book.filter(name__contains=name)
-        return book
+    #    if name:
+    #        book = book.filter(name__contains=name)
+    #    return book
 
 class BookDjangoFilterViewSet(ModelViewSet):
     queryset = BookModel.objects.all()

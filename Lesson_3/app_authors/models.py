@@ -5,8 +5,8 @@ class AuthorModel(models.Model):
     last_name = models.CharField(max_length=64)
     birthday_year = models.PositiveIntegerField()
 
-    def __str__(self):
-        return f'{self.last_name} | {self.first_name} | {self.birthday_year}'
+    #def __str__(self):
+    #    return f'{self.last_name} | {self.first_name} | {self.birthday_year}'
 
 class BiographyModel(models.Model):
     text = models.TextField()
@@ -16,5 +16,5 @@ class BookModel(models.Model):
     name = models.CharField(max_length=64)
     author = models.ManyToManyField(AuthorModel)
 
-    def __str__(self):
-        return self.name
+    #def __str__(self):
+    #    return self.name
