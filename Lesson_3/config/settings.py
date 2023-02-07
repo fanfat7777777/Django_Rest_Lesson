@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'drf_yasg',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -165,3 +166,7 @@ if DEBUG:
         ].append(
             'rest_framework.renderers.BrowsableAPIRenderer'
             )
+
+GRAPHENE = {
+    'SCHEMA': 'config.schema.schema'
+}
