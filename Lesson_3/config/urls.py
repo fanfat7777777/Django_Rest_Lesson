@@ -25,6 +25,7 @@ from drf_yasg import openapi
 from rest_framework.permissions import AllowAny
 from graphene_django.views import GraphQLView
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
 
 
 router = DefaultRouter()
@@ -56,6 +57,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
+    path('', TemplateView.as_view(template_name='index.html')),
     path('api-token-auth/', views.obtain_auth_token),
     path('swagger/', schema_view.with_ui('swagger')),
     path('redoc/', schema_view.with_ui('redoc')),
