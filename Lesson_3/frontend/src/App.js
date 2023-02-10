@@ -9,7 +9,7 @@ import BookList from './components/Book';
 import NotFound404 from './components/NotFound404';
 import BookListAuthor from './components/BooksAuthor';
 import LoginForm from './components/LoginForm';
-//import UserList from './components/User'
+import BookForm from './components/BookForm';
 
 
 class App extends React.Component {
@@ -19,8 +19,41 @@ class App extends React.Component {
       'authorsProps':[],
       'booksProps':[],
       'token':'',
-      //'usersProps':[]
     }
+  }
+
+
+  createBook(name, author){
+    const headers = this.get_headers()
+    const data = {name:name, author:author}
+    //console.log(name, author)
+    axios.post('http://localhost:8000/api/books_router/', data, {headers}).then(
+      response => {
+        this.load_data()
+      }
+    ).catch(error => {
+      console.log(error)
+      this.setState({booksProps:[]})
+    })
+  }
+
+
+  deleteBook(id){
+    const headers = this.get_headers()
+    console.log(headers)
+    axios.delete(`http://localhost:8000/api/books_router/${id}`,{headers}).then(
+      response => {
+        //this.setState(
+        //  {
+        //    'booksProps':this.state.booksProps.filter((item) => item.id !== id)
+        // }
+        //)
+        this.load_data()
+      }
+    ).catch(error => {
+      console.log(error)
+      this.setState({booksProps:[]})
+    })
   }
 
 
@@ -136,7 +169,17 @@ class App extends React.Component {
           </nav>
           <Switch>
             <Route exact path='/' component={() => <AuthorList authors={this.state.authorsProps} />} />
-            <Route exact path='/books_router' component={() => <BookList books={this.state.booksProps} />} />
+
+            <Route exact path='/books_router' component={() => 
+              <BookList 
+                books={this.state.booksProps} 
+                deleteBook={(id) => this.deleteBook(id)} 
+              />
+            } />
+
+            <Route exact path='/books_router/create' component={() => 
+              <BookForm authors={this.state.authorsProps} createBook={(name, author) => this.createBook(name, author)} />} />
+
             <Route exact path='/login' component={() => <LoginForm 
               get_token={(username,password) =>this.get_token(username,password)} />} />
 
